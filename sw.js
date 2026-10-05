@@ -1,6 +1,6 @@
 /* Service worker: deixa o app abrir sem internet depois da primeira visita.
    Ao publicar uma versão nova, aumente VERSAO para forçar a troca do cache. */
-const VERSAO = 'v1';
+const VERSAO = 'v2';
 const CACHE = 'horario-' + VERSAO;
 const ARQUIVOS = [
   './',

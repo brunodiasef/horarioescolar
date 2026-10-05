@@ -144,6 +144,18 @@ td.junta .cel::after{content:' ⇄';opacity:.75}
 .item .nome{font-weight:600;flex:1 1 150px;min-width:0}
 .item .meta{color:var(--tinta-fraca);font-size:13px;flex:1 1 140px;min-width:0}
 .item .acoes{display:flex;gap:6px;margin-left:auto}
+.item .vetos{display:flex;flex-wrap:wrap;gap:4px}
+/* em telas largas, colunas fixas para os campos ficarem alinhados de uma linha para a outra */
+@media(min-width:760px){
+  .item-prof,.item-disc,.item-turm{display:grid;align-items:center;column-gap:14px}
+  .item-prof{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) 136px 128px 150px 136px}
+  .item-disc{grid-template-columns:minmax(0,1fr) 170px 128px 136px}
+  .item-turm{grid-template-columns:minmax(0,1fr) 230px 150px}
+  .item-prof .num,.item-disc .num,.item-turm .num{text-align:right;white-space:nowrap}
+  .item-prof .meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .item-prof .tag,.item-disc .tag{justify-self:start}
+  .item-prof .acoes,.item-disc .acoes,.item-turm .acoes{margin-left:0;justify-self:end}
+}
 .num{font-family:var(--dados);font-size:13px;font-variant-numeric:tabular-nums;color:var(--tinta-fraca)}
 
 .tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap}
@@ -679,11 +691,12 @@ function renderProf(){
   alvo.innerHTML=vis.map(p=>{
     const n=contarAulas(p);
     const v=diasBloqueados(p).sort().map(d=>`<span class="veto-sel">sem aula ${DIAS[d]}</span>`).join(' ');
-    return `<div class="item">
+    return `<div class="item item-prof">
       <span class="nome">${esc(p.nome)}</span>
       <span class="meta">${p.disciplina?esc(p.disciplina):'<span style="color:var(--tinta-tenue)">disciplina não definida</span>'}</span>
       <span class="num">${n} aula${n===1?'':'s'}/semana</span>
-      <span class="tag ${p.area?AREAS[p.area].classe:'tag-none'}">${p.area?esc(AREAS[p.area].curto):'sem área'}</span> ${v}
+      <span class="tag ${p.area?AREAS[p.area].classe:'tag-none'}">${p.area?esc(AREAS[p.area].curto):'sem área'}</span>
+      <span class="vetos">${v}</span>
       <span class="acoes"><button class="btn btn-min" data-ed="${p.id}">Editar</button>
       <button class="btn btn-min btn-del" data-rm="${p.id}">Excluir</button></span></div>`}).join('');
   alvo.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>formProf(professores.find(p=>p.id===b.dataset.ed)));
@@ -757,7 +770,7 @@ function renderDisc(){
   const alvo=$('#lista-disc');
   if(!disciplinas.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhuma disciplina cadastrada</strong>Use “+ Disciplina” para começar.</div>`;return}
   if(!vis.length){alvo.innerHTML=`<div class="vazio"><strong>Nada encontrado</strong>Ajuste a busca.</div>`;return}
-  alvo.innerHTML=vis.map(d=>`<div class="item">
+  alvo.innerHTML=vis.map(d=>`<div class="item item-disc">
       <span class="nome">${esc(d.nome)}</span>
       <span class="num">${d.aulas?esc(d.aulas)+' aula'+(Number(d.aulas)===1?'':'s')+' por semana':'carga não definida'}</span>
       <span class="tag ${d.area?AREAS[d.area].classe:'tag-none'}">${d.area?esc(AREAS[d.area].curto):'sem área'}</span>
@@ -797,7 +810,7 @@ function renderTurm(){
   if(!turmas.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhuma turma cadastrada</strong>Use “+ Turma” para começar.</div>`;return}
   alvo.innerHTML=turmas.map(t=>{
     const n=Object.keys(grade[t.id]||{}).length;
-    return `<div class="item"><span class="nome">${esc(t.nome)}</span>
+    return `<div class="item item-turm"><span class="nome">${esc(t.nome)}</span>
       <span class="num">${n} de ${DIAS.length*NH} horários preenchidos</span>
       <span class="acoes"><button class="btn btn-min" data-ed="${t.id}">Renomear</button>
       <button class="btn btn-min btn-del" data-rm="${t.id}">Excluir</button></span></div>`}).join('');
