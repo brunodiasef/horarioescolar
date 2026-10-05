@@ -1,0 +1,973 @@
+{
+  "professores": [
+    {
+      "area": "mat",
+      "disciplina": "Matemática",
+      "id": "p-adilson",
+      "nome": "Adilson"
+    },
+    {
+      "area": "ling",
+      "disciplina": "Arte",
+      "id": "p-adriana",
+      "nome": "Adriana"
+    },
+    {
+      "area": "ling",
+      "disciplina": "Educação Física",
+      "id": "p-amanda",
+      "nome": "Amanda"
+    },
+    {
+      "area": "hum",
+      "disciplina": "Estudo Orientado",
+      "id": "p-anapaula",
+      "nome": "Ana Paula"
+    },
+    {
+      "area": "hum",
+      "disciplina": "Geografia",
+      "id": "p-anselma",
+      "nome": "Anselma",
+      "planeja": ""
+    },
+    {
+      "area": "",
+      "disciplina": "",
+      "id": "p-bianca",
+      "nome": "Bianca"
+    },
+    {
+      "area": "",
+      "disciplina": "",
+      "id": "p-breno",
+      "nome": "Breno"
+    },
+    {
+      "area": "ling",
+      "disciplina": "Educação Física",
+      "id": "p-bruno",
+      "nome": "Bruno"
+    },
+    {
+      "area": "hum",
+      "disciplina": "Estudo Orientado",
+      "id": "p-carla",
+      "nome": "Carla"
+    },
+    {
+      "area": "ling",
+      "disciplina": "Língua Inglesa",
+      "id": "p-cleidimar",
+      "nome": "Cleidimar"
+    },
+    {
+      "area": "mat",
+      "disciplina": "Ciências",
+      "id": "p-danubia",
+      "nome": "Danúbia"
+    },
+    {
+      "area": "mat",
+      "disciplina": "Ciências",
+      "id": "p-darlene",
+      "nome": "Darlene"
+    },
+    {
+      "area": "ling",
+      "disciplina": "Língua Portuguesa",
+      "id": "p-dayane",
+      "nome": "Dayane"
+    },
+    {
+      "area": "mat",
+      "disciplina": "Matemática",
+      "id": "p-deibith",
+      "nome": "Deibith"
+    },
+    {
+      "area": "mat",
+      "disciplina": "Matemática",
+      "id": "p-diego",
+      "nome": "Diego",
+      "planeja": "2"
+    },
+    {
+      "area": "mat",
+      "disciplina": "Ciências",
+      "id": "p-fernanda",
+      "nome": "Fernanda",
+      "planeja": ""
+    },
+    {
+      "area": "mat",
+      "disciplina": "Matemática",
+      "id": "p-gleucia",
+      "nome": "Gleucia",
+      "planeja": ""
+    },
+    {
+      "area": "mat",
+      "disciplina": "Ciências",
+      "id": "p-ivaneth",
+      "nome": "Ivaneth",
+      "planeja": ""
+    },
+    {
+      "area": "ling",
+      "disciplina": "Língua Inglesa",
+      "id": "p-kenia",
+      "nome": "Kênia",
+      "planeja": ""
+    },
+    {
+      "area": "",
+      "disciplina": "",
+      "id": "p-leorrayne",
+      "nome": "Leorrayne",
+      "planeja": ""
+    },
+    {
+      "area": "hum",
+      "disciplina": "Geografia",
+      "id": "p-nathan",
+      "nome": "Nathan",
+      "planeja": ""
+    },
+    {
+      "area": "ling",
+      "disciplina": "Língua Portuguesa",
+      "id": "p-neidimar",
+      "nome": "Neidimar",
+      "planeja": ""
+    },
+    {
+      "area": "ling",
+      "disciplina": "Língua Portuguesa",
+      "id": "p-pamella",
+      "nome": "Pâmella",
+      "planeja": ""
+    },
+    {
+      "area": "mat",
+      "disciplina": "",
+      "id": "p-roberto",
+      "nome": "Roberto",
+      "planeja": ""
+    },
+    {
+      "area": "",
+      "disciplina": "",
+      "id": "p-rodolpho",
+      "nome": "Rodolpho"
+    },
+    {
+      "area": "hum",
+      "disciplina": "",
+      "id": "p-romildo",
+      "nome": "Romildo",
+      "planeja": ""
+    },
+    {
+      "area": "mat",
+      "disciplina": "Matemática",
+      "id": "p-rosiane",
+      "nome": "Rosiane",
+      "planeja": ""
+    },
+    {
+      "area": "hum",
+      "disciplina": "Geografia",
+      "id": "p-rubens",
+      "nome": "Rubens",
+      "planeja": ""
+    },
+    {
+      "area": "hum",
+      "disciplina": "Projeto de Vida",
+      "id": "p-santa",
+      "nome": "Santa",
+      "planeja": "1"
+    }
+  ],
+  "disciplinas": [
+    {
+      "area": "ling",
+      "aulas": "",
+      "id": "d-arte",
+      "nome": "Arte"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-biologia",
+      "nome": "Biologia"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-ciencias",
+      "nome": "Ciências"
+    },
+    {
+      "area": "ling",
+      "aulas": "2",
+      "id": "d-edfisica",
+      "nome": "Educação Física"
+    },
+    {
+      "area": "",
+      "aulas": "",
+      "id": "d-eletivas",
+      "nome": "Eletivas"
+    },
+    {
+      "area": "",
+      "aulas": "",
+      "id": "d-estudoorientado",
+      "nome": "Estudo Orientado"
+    },
+    {
+      "area": "hum",
+      "aulas": "",
+      "id": "d-filosofia",
+      "nome": "Filosofia"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-fisica",
+      "nome": "Física"
+    },
+    {
+      "area": "hum",
+      "aulas": "",
+      "id": "d-geografia",
+      "nome": "Geografia"
+    },
+    {
+      "area": "hum",
+      "aulas": "",
+      "id": "d-historia",
+      "nome": "História"
+    },
+    {
+      "area": "ling",
+      "aulas": "",
+      "id": "d-ingles",
+      "nome": "Língua Inglesa"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-matematica",
+      "nome": "Matemática"
+    },
+    {
+      "area": "",
+      "aulas": "",
+      "id": "d-pensamentocient",
+      "nome": "Pensamento Científico"
+    },
+    {
+      "area": "ling",
+      "aulas": "",
+      "id": "d-portugues",
+      "nome": "Língua Portuguesa"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-praticasciencias",
+      "nome": "Práticas Experimentais de Ciências"
+    },
+    {
+      "area": "",
+      "aulas": "",
+      "id": "d-projetovida",
+      "nome": "Projeto de Vida"
+    },
+    {
+      "area": "",
+      "aulas": "",
+      "id": "d-protagonismo",
+      "nome": "Práticas e Vivências em Protagonismo"
+    },
+    {
+      "area": "mat",
+      "aulas": "",
+      "id": "d-quimica",
+      "nome": "Química"
+    },
+    {
+      "area": "hum",
+      "aulas": "",
+      "id": "d-religioso",
+      "nome": "Ensino Religioso"
+    },
+    {
+      "area": "hum",
+      "aulas": "",
+      "id": "d-sociologia",
+      "nome": "Sociologia"
+    }
+  ],
+  "turmas": [
+    {
+      "id": "t3esp",
+      "nome": "3ª I M 01 ESP",
+      "ordem": 13
+    },
+    {
+      "id": "t3tec",
+      "nome": "3ª I 01 TEC ADM",
+      "ordem": 12
+    },
+    {
+      "id": "t6a",
+      "nome": "6º I M 01",
+      "ordem": 0
+    },
+    {
+      "id": "t6b",
+      "nome": "6º I M 02",
+      "ordem": 1
+    },
+    {
+      "id": "t6c",
+      "nome": "6º I M 03",
+      "ordem": 2
+    },
+    {
+      "id": "t7a",
+      "nome": "7º I M 01",
+      "ordem": 3
+    },
+    {
+      "id": "t7b",
+      "nome": "7º I M 02",
+      "ordem": 4
+    },
+    {
+      "id": "t7c",
+      "nome": "7º I M 03",
+      "ordem": 5
+    },
+    {
+      "id": "t8a",
+      "nome": "8º I M 01",
+      "ordem": 6
+    },
+    {
+      "id": "t8b",
+      "nome": "8º I M 02",
+      "ordem": 7
+    },
+    {
+      "id": "t8c",
+      "nome": "8º I M 03",
+      "ordem": 8
+    },
+    {
+      "id": "t9a",
+      "nome": "9º I M 01",
+      "ordem": 9
+    },
+    {
+      "id": "t9b",
+      "nome": "9º I M 02",
+      "ordem": 10
+    },
+    {
+      "id": "t9c",
+      "nome": "9º I M 03",
+      "ordem": 11
+    }
+  ],
+  "grade": [
+    {
+      "celulas": {
+        "0-0": "ADILSON",
+        "0-1": "ROBERTO E.O",
+        "0-2": "IVANETH BIO",
+        "0-3": "PÂMELLA",
+        "0-4": "PÂMELLA",
+        "0-5": "KÊNIA E.M.",
+        "0-6": "DIEGO PRAT.",
+        "1-0": "ROBERTO PRAT",
+        "1-1": "ADILSON",
+        "1-2": "FERNANDA MORF.",
+        "1-3": "DARLENE Q.",
+        "1-4": "IVANETH BIOL",
+        "1-5": "PÂMELLA",
+        "1-6": "KÊNIA E.M.",
+        "2-0": "ANA PAULA FIL.",
+        "2-1": "RODOLPHO",
+        "2-2": "SANTA SOC.",
+        "2-3": "PÂMELLA",
+        "2-4": "ANSELMA",
+        "2-5": "AMANDA R. L.",
+        "2-6": "KÊNIA ING.",
+        "3-0": "DARLENE Q.E.",
+        "3-1": "ANSELMA",
+        "3-2": "ROBERTO FIS.",
+        "3-3": "ADILSON",
+        "3-4": "ADILSON",
+        "3-5": "RODOLPHO",
+        "3-6": "ROBERTO M. B.",
+        "4-0": "PÂMELLA",
+        "4-1": "ADILSON",
+        "4-2": "ROBERTO EO.",
+        "4-3": "SANTA P.V.",
+        "4-4": "SANTA P.V.",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t3esp"
+    },
+    {
+      "celulas": {
+        "0-0": "PÂMELLA",
+        "0-1": "ADILSON P. EMP.",
+        "0-2": "ANSELMA",
+        "0-3": "SANTA P.V.",
+        "0-4": "SANTA P.V.",
+        "0-5": "LEORRAYNY G.P.",
+        "0-6": "LEORRAYNY G.P.",
+        "1-0": "ADILSON",
+        "1-1": "ROBERTO PRAT.",
+        "1-2": "IVANETH BIOL",
+        "1-3": "AMANDA E.O.",
+        "1-4": "PÂMELLA",
+        "1-5": "LEORRAYNE P.INV.",
+        "1-6": "LEORRAYNE P.INV.",
+        "2-0": "BIANCA D. E.TRIB",
+        "2-1": "BIANCA D. E.TRIB",
+        "2-2": "PÂMELLA",
+        "2-3": "BRENO C. BRAND.",
+        "2-4": "BRENO C. BRAND.",
+        "2-5": "LEORRAYNE AD. F",
+        "2-6": "LEORRAYNE AD. F",
+        "3-0": "ANSELMA",
+        "3-1": "ADILSON",
+        "3-2": "ADILSON",
+        "3-3": "RODOLPHO",
+        "3-4": "IVANETH BIOL.",
+        "3-5": "LEORRAYNE G.P.Q",
+        "3-6": "LEORRAYNE G.P. Q.",
+        "4-0": "RODOLPHO",
+        "4-1": "BRENO C. BRAND.",
+        "4-2": "ADILSON P. EMP",
+        "4-3": "LEORRAYNE E. COM",
+        "4-4": "LEORRAYNE E.COM.",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t3tec"
+    },
+    {
+      "celulas": {
+        "0-0": "ROSIANE",
+        "0-1": "ROMILDO",
+        "0-2": "ADRIANA",
+        "0-3": "NEIDIMAR",
+        "0-4": "NATHAN/ RUBENS",
+        "0-5": "AMANDA E.F",
+        "0-6": "CARLA E.R.",
+        "1-0": "ADRIANA",
+        "1-1": "CLEIDIMAR",
+        "1-2": "NEIDIMAR",
+        "1-3": "ROSIANE",
+        "1-4": "ROSIANE",
+        "1-5": "FERNANDA",
+        "1-6": "DARLENE PC",
+        "2-0": "NATHAN E.O CLEIDIMAR",
+        "2-1": "ROMILDO",
+        "2-2": "CARLA PROT.",
+        "2-3": "NEIDIMAR",
+        "2-4": "NEIDIMAR",
+        "2-5": "NATHAN E.O CLEIDIMAR",
+        "2-6": "AMANDA E. F.",
+        "3-0": "FERNANDA",
+        "3-1": "FERNANDA",
+        "3-2": "ROSIANE",
+        "3-3": "SANTA P.V",
+        "3-4": "SANTA P.V",
+        "3-5": "NATHAN/ RUBENS",
+        "3-6": "ROMILDO",
+        "4-0": "CLEDIMAR",
+        "4-1": "FERNANDA PRAT.",
+        "4-2": "NATHAN/ RUBENS",
+        "4-3": "NEIDIMAR",
+        "4-4": "ROSIANE",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t6a"
+    },
+    {
+      "celulas": {
+        "0-0": "ROMILDO",
+        "0-1": "NATHAN E.O CLEIDIMAR",
+        "0-2": "DARLENE P.C",
+        "0-3": "CARLA E.R.",
+        "0-4": "NEIDIMAR",
+        "0-5": "ROSIANE",
+        "0-6": "AMANDA E.F",
+        "1-0": "NEIDIMAR",
+        "1-1": "NEIDIMAR",
+        "1-2": "CLEIDIMAR",
+        "1-3": "ADRIANA",
+        "1-4": "FERNANDA",
+        "1-5": "ROSIANE",
+        "1-6": "ROSIANE",
+        "2-0": "NATHAN/ RUBENS",
+        "2-1": "AMANDA E. F.",
+        "2-2": "NEIDIMAR",
+        "2-3": "ROMILDO",
+        "2-4": "ADRIANA",
+        "2-5": "CARLA PROT.",
+        "2-6": "NATHAN E.O CLEIDIMAR",
+        "3-0": "NATHAN/ RUBENS",
+        "3-1": "ROSIANE",
+        "3-2": "ROMILDO",
+        "3-3": "FERNANDA",
+        "3-4": "FERNANDA",
+        "3-5": "SANTA P.V",
+        "3-6": "SANTA P.V",
+        "4-0": "ROSIANE",
+        "4-1": "NEIDIMAR",
+        "4-2": "FERNANDA PRAT.",
+        "4-3": "CLEIDIMAR",
+        "4-4": "NATHAN/ RUBENS",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t6b"
+    },
+    {
+      "celulas": {
+        "0-0": "NATHAN",
+        "0-1": "NEIDIMAR",
+        "0-2": "NEIDIMAR",
+        "0-3": "ROSIANE",
+        "0-4": "DARLENE P.C",
+        "0-5": "DANUBIA",
+        "0-6": "DANÚBIA",
+        "1-0": "ROSIANE",
+        "1-1": "ROSIANE",
+        "1-2": "DANÚBIA",
+        "1-3": "NEIDIMAR",
+        "1-4": "ADRIANA",
+        "1-5": "CLEDIMAR",
+        "1-6": "AMANDA E.F",
+        "2-0": "ROMILDO",
+        "2-1": "CARLA PROT.",
+        "2-2": "NATHAN E.O CLEIDIMAR",
+        "2-3": "NATHAN",
+        "2-4": "CLEIDIMAR",
+        "2-5": "NEIDIMAR",
+        "2-6": "ADRIANA",
+        "3-0": "SANTA P.V",
+        "3-1": "SANTA P.V",
+        "3-2": "DANUBIA PRAT",
+        "3-3": "ROMILDO",
+        "3-4": "NATHAN",
+        "3-5": "ROSIANE",
+        "3-6": "CARLA E. R.",
+        "4-0": "NEIDIMAR",
+        "4-1": "NATHAN E.O CLEIDIMAR",
+        "4-2": "ROSIANE",
+        "4-3": "ROMILDO",
+        "4-4": "AMANDA E. F.",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t6c"
+    },
+    {
+      "celulas": {
+        "0-0": "DARLENE PROT",
+        "0-1": "ANSELMA",
+        "0-2": "DANUBIA",
+        "0-3": "CLEIDIMAR",
+        "0-4": "DEIBITH",
+        "0-5": "ADRIANA",
+        "0-6": "NEIDIMAR",
+        "1-0": "DEIBITH",
+        "1-1": "BRUNO",
+        "1-2": "ADRIANA",
+        "1-3": "IVANETH PRAT",
+        "1-4": "NEIDIMAR",
+        "1-5": "DANÚBIA",
+        "1-6": "DANÚBIA",
+        "2-0": "NEIDIMAR",
+        "2-1": "NEIDIMAR",
+        "2-2": "ANSELMA",
+        "2-3": "CLEIDIMAR",
+        "2-4": "ROMILDO",
+        "2-5": "SANTA P.V.",
+        "2-6": "SANTA P.V.",
+        "3-0": "ANA PAULA E. O",
+        "3-1": "CARLA E.R",
+        "3-2": "ANA PAULA E.O",
+        "3-3": "DEIBITH",
+        "3-4": "DEIBITH",
+        "3-5": "ROMILDO",
+        "3-6": "ANSELMA",
+        "4-0": "DEIBITH",
+        "4-1": "BRUNO",
+        "4-2": "NEIDIMAR",
+        "4-3": "DARLENE P.C",
+        "4-4": "ROMILDO",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t7a"
+    },
+    {
+      "celulas": {
+        "0-0": "ANSELMA",
+        "0-1": "PÂMELLA",
+        "0-2": "PÂMELLA",
+        "0-3": "IVANETH PRAT.",
+        "0-4": "ANA PAULA E.O",
+        "0-5": "DEIBITH",
+        "0-6": "ADRIANA",
+        "1-0": "DARLENE PC",
+        "1-1": "DEIBITH",
+        "1-2": "DEIBITH",
+        "1-3": "DANUBIA",
+        "1-4": "CLEIDIMAR",
+        "1-5": "BRUNO",
+        "1-6": "PÂMELLA",
+        "2-0": "ANSELMA",
+        "2-1": "CLEIDIMAR",
+        "2-2": "ADRIANA",
+        "2-3": "SANTA P.V.",
+        "2-4": "SANTA P.V.",
+        "2-5": "PÂMELLA",
+        "2-6": "ROMILDO",
+        "3-0": "ROMILDO",
+        "3-1": "ANA PAULA E.O",
+        "3-2": "DARLENE PROT.",
+        "3-3": "DANUBIA",
+        "3-4": "DANUBIA",
+        "3-5": "CARLA E. R.",
+        "3-6": "DEIBITH",
+        "4-0": "BRUNO",
+        "4-1": "ANSELMA",
+        "4-2": "ROMILDO",
+        "4-3": "DEIBITH",
+        "4-4": "PÂMELLA",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t7b"
+    },
+    {
+      "celulas": {
+        "0-0": "DANUBIA",
+        "0-1": "DEIBITH",
+        "0-2": "CLEIDIMAR",
+        "0-3": "ROMILDO",
+        "0-4": "NATHAN/ ANSELMA",
+        "0-5": "PÂMELLA",
+        "0-6": "ROBERTO E.O",
+        "1-0": "DANÚBIA",
+        "1-1": "PÂMELLA",
+        "1-2": "PÂMELLA",
+        "1-3": "DEIBITH",
+        "1-4": "DEIBITH",
+        "1-5": "DARLENE PC",
+        "1-6": "ROBERTO EO",
+        "2-0": "SANTA P.V.",
+        "2-1": "SANTA P.V.",
+        "2-2": "ROMILDO",
+        "2-3": "ADRIANA",
+        "2-4": "BRUNO",
+        "2-5": "NATHAN/ ANSELMA",
+        "2-6": "PÂMELLA",
+        "3-0": "DEIBITH",
+        "3-1": "DARLENE PROT",
+        "3-2": "IVANETH PRAT.",
+        "3-3": "CARLA E. R.",
+        "3-4": "ROMILDO",
+        "3-5": "NATHAN/ ANSELMA",
+        "3-6": "DANÚBIA",
+        "4-0": "ADRIANA",
+        "4-1": "DEIBITH",
+        "4-2": "BRUNO",
+        "4-3": "PÂMELLA",
+        "4-4": "CLEDIMAR",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t7c"
+    },
+    {
+      "celulas": {
+        "0-0": "ADRIANA",
+        "0-1": "FERNANDA",
+        "0-2": "FERNANDA",
+        "0-3": "BRUNO",
+        "0-4": "DAYANE",
+        "0-5": "DARLENE PROT.",
+        "0-6": "GLEUCIA",
+        "1-0": "DAYANE",
+        "1-1": "DAYANE",
+        "1-2": "DARLENE PC",
+        "1-3": "GLEUCIA",
+        "1-4": "GLEUCIA",
+        "1-5": "KÊNIA",
+        "1-6": "FERNANDA",
+        "2-0": "ADRIANA",
+        "2-1": "RUBENS",
+        "2-2": "KÊNIA",
+        "2-3": "BRUNO",
+        "2-4": "CARLA E. R.",
+        "2-5": "ROMILDO",
+        "2-6": "DAYANE",
+        "3-0": "GLEUCIA",
+        "3-1": "ROMILDO",
+        "3-2": "FERNANDA PRAT.",
+        "3-3": "ROBERTO E. O.",
+        "3-4": "RUBENS",
+        "3-5": "ANA PAULA P.V",
+        "3-6": "ANA PAULA P.V",
+        "4-0": "GLEUCIA",
+        "4-1": "ROMILDO",
+        "4-2": "DAYANE",
+        "4-3": "RUBENS",
+        "4-4": "ROBERTO E. O.",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t8a"
+    },
+    {
+      "celulas": {
+        "0-0": "DAYANE",
+        "0-1": "DAYANE",
+        "0-2": "BRUNO",
+        "0-3": "FERNANDA",
+        "0-4": "FERNANDA",
+        "0-5": "GLEUCIA",
+        "0-6": "RODOLPHO",
+        "1-0": "KÊNIA",
+        "1-1": "FERNANDA",
+        "1-2": "ROBERTO EO",
+        "1-3": "BRUNO",
+        "1-4": "DARLENE PC",
+        "1-5": "DAYANE",
+        "1-6": "GLEUCIA",
+        "2-0": "KÊNIA",
+        "2-1": "ADRIANA",
+        "2-2": "RODOLPHO",
+        "2-3": "ANA PAULA P.V",
+        "2-4": "ANA PAULA P.V",
+        "2-5": "DAYANE",
+        "2-6": "RUBENS",
+        "3-0": "CARLA E. R.",
+        "3-1": "RUBENS",
+        "3-2": "RODOLPHO",
+        "3-3": "GLEUCIA",
+        "3-4": "GLEUCIA",
+        "3-5": "DARLENE PROT",
+        "3-6": "FERNANDA PRAT,",
+        "4-0": "DAYANE",
+        "4-1": "RUBENS",
+        "4-2": "ADRIANA",
+        "4-3": "ROBERTO E. O.",
+        "4-4": "GLEUCIA",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t8b"
+    },
+    {
+      "celulas": {
+        "0-0": "DEIBITH",
+        "0-1": "DANUBIA",
+        "0-2": "NATHAN/ RUBENS",
+        "0-3": "RODOLPHO",
+        "0-4": "BRUNO",
+        "0-5": "ROBERTO E.O",
+        "0-6": "PÂMELLA",
+        "1-0": "PÂMELLA",
+        "1-1": "DARLENE PROT.",
+        "1-2": "BRUNO",
+        "1-3": "KÊNIA",
+        "1-4": "DANÚBIA",
+        "1-5": "ADRIANA",
+        "1-6": "DEIBITH",
+        "2-0": "PÂMELLA",
+        "2-1": "PÂMELLA",
+        "2-2": "NATHAN/ RUBENS",
+        "2-3": "RODOLPHO",
+        "2-4": "KÊNIA",
+        "2-5": "ANA PAULA P.V",
+        "2-6": "ANA PAULA P.V",
+        "3-0": "DANÚBIA",
+        "3-1": "DEIBITH",
+        "3-2": "DEIBITH",
+        "3-3": "DARLENE P.C",
+        "3-4": "CARLA E. R.",
+        "3-5": "DANÚBIA PRAT.",
+        "3-6": "RODOLFO",
+        "4-0": "NATHAN/ RUBENS",
+        "4-1": "ROBERTO E. O.",
+        "4-2": "PÂMELLA",
+        "4-3": "ADRIANA",
+        "4-4": "DEIBITH",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t8c"
+    },
+    {
+      "celulas": {
+        "0-0": "IVANETH",
+        "0-1": "ADRIANA",
+        "0-2": "DAYANE",
+        "0-3": "RUBENS",
+        "0-4": "DIEGO",
+        "0-5": "ANA PAULA P.V",
+        "0-6": "ANA PAULA P.V",
+        "1-0": "IVANETH",
+        "1-1": "KÊNIA",
+        "1-2": "DAYANE",
+        "1-3": "DIEGO",
+        "1-4": "DIEGO",
+        "1-5": "ROBERTO E. O",
+        "1-6": "IVANETH PRAT.",
+        "2-0": "RODOLPHO",
+        "2-1": "KÊNIA",
+        "2-2": "BRUNO",
+        "2-3": "DAYANE",
+        "2-4": "DAYANE",
+        "2-5": "RUBENS",
+        "2-6": "CARLA PROT",
+        "3-0": "ROBERTO E.O",
+        "3-1": "RODOLPHO",
+        "3-2": "CARLA E. R.",
+        "3-3": "IVANETH",
+        "3-4": "DARLENE P.C",
+        "3-5": "DIEGO",
+        "3-6": "RUBENS",
+        "4-0": "DIEGO",
+        "4-1": "DAYANE",
+        "4-2": "RODOLPHO",
+        "4-3": "BRUNO",
+        "4-4": "ADRIANA",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t9a"
+    },
+    {
+      "celulas": {
+        "0-0": "RUBENS",
+        "0-1": "BRUNO",
+        "0-2": "ROBERTO E.O",
+        "0-3": "GLEUCIA",
+        "0-4": "ADRIANA",
+        "0-5": "IVANETH",
+        "0-6": "DAYANE",
+        "1-0": "BRUNO",
+        "1-1": "IVANETH",
+        "1-2": "KÊNIA",
+        "1-3": "DAYANE",
+        "1-4": "DAYANE",
+        "1-5": "GLEUCIA",
+        "1-6": "ADRIANA",
+        "2-0": "DAYANE",
+        "2-1": "ANA PAULA P.V",
+        "2-2": "ANA PAULA P.V",
+        "2-3": "KÊNIA",
+        "2-4": "RUBENS",
+        "2-5": "RODOLPHO",
+        "2-6": "CARLA PROT",
+        "3-0": "IVANETH",
+        "3-1": "GLEUCIA",
+        "3-2": "GLEUCIA",
+        "3-3": "RUBENS",
+        "3-4": "RODOLPHO",
+        "3-5": "ROBERTO E.O",
+        "3-6": "DARLENE P.C",
+        "4-0": "CARLA E.R",
+        "4-1": "RODOLPHO",
+        "4-2": "GLEUCIA",
+        "4-3": "IVANETH PRAT.",
+        "4-4": "DAYANE",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t9b"
+    },
+    {
+      "celulas": {
+        "0-0": "RODOLPHO",
+        "0-1": "DIEGO",
+        "0-2": "CARLA E.R.",
+        "0-3": "ADRIANA",
+        "0-4": "IVANETH",
+        "0-5": "DAYANE",
+        "0-6": "RUBENS",
+        "1-0": "DIEGO",
+        "1-1": "ADRIANA",
+        "1-2": "DIEGO",
+        "1-3": "ROBERTO E. O",
+        "1-4": "BRUNO",
+        "1-5": "IVANETH",
+        "1-6": "DAYANE",
+        "2-0": "BRUNO",
+        "2-1": "DAYANE",
+        "2-2": "DAYANE",
+        "2-3": "RUBENS",
+        "2-4": "RODOLPHO",
+        "2-5": "KENIA",
+        "2-6": "CARLA PROT",
+        "3-0": "RODOLPHO",
+        "3-1": "ROBERTO E.O",
+        "3-2": "RUBENS",
+        "3-3": "ANA PAULA P.V",
+        "3-4": "ANA PAULA P.V",
+        "3-5": "IVANETH",
+        "3-6": "DIEGO",
+        "4-0": "DARLENE P.C.",
+        "4-1": "DIEGO",
+        "4-2": "KENIA",
+        "4-3": "DAYANE",
+        "4-4": "IVANETH PRAT",
+        "4-5": "ELETIVA",
+        "4-6": "ELETIVA"
+      },
+      "id": "t9c"
+    }
+  ],
+  "conjuntas": [
+    {
+      "d": 2,
+      "h": 6,
+      "id": "2-6-p-carla",
+      "nota": "Clube do Protagonismo",
+      "pid": "p-carla"
+    }
+  ],
+  "config": {
+    "vetos": {
+      "ling": 3,
+      "hum": 1,
+      "mat": 2
+    },
+    "dias": [
+      "segunda",
+      "terça",
+      "quarta",
+      "quinta",
+      "sexta"
+    ],
+    "horariosPorDia": 7
+  }
+}

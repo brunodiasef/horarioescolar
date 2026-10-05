@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>
+  :root{color-scheme:light}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Criador de Horário Escolar</title>
+<meta name="description" content="Monta a grade de horário da escola, aponta choques de professor e redistribui a semana sem alterar a carga horária.">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2f5d62">
+<link rel="icon" type="image/png" sizes="32x32" href="icones/favicon-32.png">
+<link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Horário">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+</head>
+<body>
+<style>
+/* Layout: cabeçalho fixo com abas; a grade é uma tabela rolável de horários por turma */
+:root{
+  --papel:#f7f5f1; --superficie:#fffefc; --borda:#ddd8cf; --borda-forte:#c3bcb0; --linha:#e7e2da;
+  --tinta:#23201c; --tinta-fraca:#6d675e; --tinta-tenue:#938c81;
+  --acento:#2f5d62; --acento-suave:#e3edec; --acento-tinta:#1d4448; --sobre-acento:#ffffff;
+  --ling:#9a5b1f; --ling-bg:#f7e9d8;
+  --hum:#8d3a52; --hum-bg:#f8e3e9;
+  --mat:#1f5f8b; --mat-bg:#dceaf4;
+  --perigo:#9c3328; --perigo-bg:#f7ddd9; --perigo-borda:#d9897c;
+  --alerta:#8a6212; --alerta-bg:#f9eed2; --alerta-borda:#d6b260;
+  --ok:#2d6a45; --ok-bg:#e0efe5;
+  --corpo:'IBM Plex Sans',system-ui,sans-serif;
+  --dados:'IBM Plex Mono',ui-monospace,monospace;
+  --r:8px; --sombra:0 1px 2px rgba(35,32,28,.06),0 3px 10px rgba(35,32,28,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --papel:#17191a; --superficie:#202325; --borda:#33383b; --borda-forte:#4a5054; --linha:#2c3032;
+  --tinta:#eceae6; --tinta-fraca:#a9a49c; --tinta-tenue:#7d7872;
+  --acento:#7fc3c9; --acento-suave:#1d3537; --acento-tinta:#a9dde1; --sobre-acento:#12201f;
+  --ling:#e0a364; --ling-bg:#3a2d1d;
+  --hum:#e08ca3; --hum-bg:#3a2229;
+  --mat:#7fb6dd; --mat-bg:#1b2f3d;
+  --perigo:#f0a295; --perigo-bg:#3f241f; --perigo-borda:#8d4c40;
+  --alerta:#e3bd6c; --alerta-bg:#352a15; --alerta-borda:#7d6428;
+  --ok:#8ccfa4; --ok-bg:#1c3326;
+  --sombra:0 1px 2px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.25);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --papel:#17191a; --superficie:#202325; --borda:#33383b; --borda-forte:#4a5054; --linha:#2c3032;
+  --tinta:#eceae6; --tinta-fraca:#a9a49c; --tinta-tenue:#7d7872;
+  --acento:#7fc3c9; --acento-suave:#1d3537; --acento-tinta:#a9dde1; --sobre-acento:#12201f;
+  --ling:#e0a364; --ling-bg:#3a2d1d;
+  --hum:#e08ca3; --hum-bg:#3a2229;
+  --mat:#7fb6dd; --mat-bg:#1b2f3d;
+  --perigo:#f0a295; --perigo-bg:#3f241f; --perigo-borda:#8d4c40;
+  --alerta:#e3bd6c; --alerta-bg:#352a15; --alerta-borda:#7d6428;
+  --ok:#8ccfa4; --ok-bg:#1c3326;
+  --sombra:0 1px 2px rgba(0,0,0,.3),0 3px 10px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--papel);color:var(--tinta);font-family:var(--corpo);font-size:15px;line-height:1.5}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.015em;text-wrap:balance}
+button,input,select{font:inherit;color:inherit}
+
+.topo{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--superficie);border-bottom:1px solid var(--borda)}
+.topo-int{max-width:1240px;margin:0 auto;padding:13px 16px 0;display:flex;flex-direction:column;gap:11px}
+.marca{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.marca h1{font-size:19px}
+.marca .sub{font-size:12.5px;color:var(--tinta-tenue)}
+.abas{display:flex;gap:2px;overflow-x:auto}
+.aba{background:none;border:0;border-bottom:2px solid transparent;padding:9px 13px;cursor:pointer;color:var(--tinta-fraca);font-weight:500;font-size:14px;white-space:nowrap;border-radius:var(--r) var(--r) 0 0}
+.aba:hover{color:var(--tinta);background:var(--acento-suave)}
+.aba[aria-selected="true"]{color:var(--acento-tinta);border-bottom-color:var(--acento);font-weight:600}
+.aba .cont{font-family:var(--dados);font-size:11.5px;color:var(--tinta-tenue);margin-left:5px}
+
+main{max-width:1240px;margin:0 auto;padding-block:18px 56px;padding-left:16px;padding-right:16px}
+
+.barra{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.busca{flex:1 1 190px;min-width:0}
+.busca input{width:100%;padding:9px 12px;border:1px solid var(--borda-forte);border-radius:var(--r);background:var(--superficie)}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--acento);outline-offset:1px}
+.chip{border:1px solid var(--borda-forte);background:var(--superficie);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;color:var(--tinta-fraca)}
+.chip[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:var(--sobre-acento);font-weight:500}
+.filtros{display:flex;gap:6px;flex-wrap:wrap}
+
+.btn{border:1px solid var(--borda-forte);background:var(--superficie);border-radius:var(--r);padding:9px 14px;cursor:pointer;font-weight:500;font-size:14px}
+.btn:hover:not(:disabled){border-color:var(--acento)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn-pri{background:var(--acento);border-color:var(--acento);color:var(--sobre-acento)}
+.btn-pri:hover:not(:disabled){filter:brightness(1.08)}
+.btn-min{padding:5px 9px;font-size:12.5px;color:var(--tinta-fraca)}
+.btn-min:hover{color:var(--tinta)}
+.btn-del:hover{color:var(--perigo);border-color:var(--perigo)}
+
+/* ---- grade ---- */
+.dias{display:flex;gap:5px;overflow-x:auto;margin-bottom:12px}
+.dia{border:1px solid var(--borda-forte);background:var(--superficie);border-radius:var(--r);padding:7px 15px;cursor:pointer;font-size:13.5px;white-space:nowrap;position:relative}
+.dia[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:var(--sobre-acento);font-weight:600}
+.dia .pino{display:inline-block;min-width:17px;margin-left:6px;padding:0 5px;border-radius:999px;background:var(--perigo);color:#fff;font-family:var(--dados);font-size:10.5px;line-height:16px;font-weight:600}
+.dia[aria-pressed="true"] .pino{background:var(--superficie);color:var(--perigo)}
+
+.rolagem{overflow-x:auto;border:1px solid var(--borda);border-radius:var(--r);background:var(--superficie);box-shadow:var(--sombra)}
+table.grade{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:12.5px}
+table.grade th,table.grade td{border-right:1px solid var(--linha);border-bottom:1px solid var(--linha);padding:0;text-align:center}
+table.grade thead th{background:var(--acento-suave);color:var(--acento-tinta);font-size:11px;font-weight:600;letter-spacing:.02em;padding:8px 6px;white-space:nowrap;position:sticky;top:0;z-index:2}
+table.grade th.hora{background:var(--papel);color:var(--tinta-fraca);font-family:var(--dados);font-size:11.5px;width:44px;min-width:44px;position:sticky;left:0;z-index:3;border-right:1px solid var(--borda-forte)}
+table.grade thead th.hora{z-index:4}
+.cel{display:block;width:100%;min-width:104px;border:0;background:none;padding:7px 5px;cursor:pointer;font-size:12px;line-height:1.3;color:var(--tinta);min-height:38px;text-align:center}
+.cel:hover{background:var(--acento-suave)}
+.cel.vaga{color:var(--tinta-tenue)}
+.cel.fixa{color:var(--tinta-tenue);font-size:10.5px;letter-spacing:.03em;text-transform:uppercase}
+td.choque{background:var(--perigo-bg);box-shadow:inset 0 0 0 2px var(--perigo-borda)}
+td.choque .cel{color:var(--perigo);font-weight:600}
+td.veto{background:var(--alerta-bg);box-shadow:inset 0 0 0 2px var(--alerta-borda)}
+td.veto .cel{color:var(--alerta);font-weight:600}
+td.choque.veto{background:var(--perigo-bg);box-shadow:inset 0 0 0 2px var(--perigo-borda)}
+td.junta{background:var(--ok-bg);box-shadow:inset 0 0 0 2px var(--ok)}
+td.junta .cel{color:var(--ok);font-weight:600}
+td.junta .cel::after{content:' ⇄';opacity:.75}
+.sel-junta{background:var(--ok-bg);color:var(--ok);font-weight:600;padding:2px 8px;border-radius:5px;font-size:12px}
+
+.painel{margin-top:16px;background:var(--superficie);border:1px solid var(--borda);border-radius:var(--r);box-shadow:var(--sombra);overflow:hidden}
+.painel-topo{padding:11px 14px;border-bottom:1px solid var(--linha);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.painel-topo h3{font-size:13.5px}
+.painel ul{list-style:none;margin:0;padding:0}
+.painel li{padding:10px 14px;border-bottom:1px solid var(--linha);display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13.5px}
+.painel li:last-child{border-bottom:0}
+.painel .quando{font-family:var(--dados);font-size:12px;color:var(--tinta-fraca);white-space:nowrap}
+.sel-choque{background:var(--perigo-bg);color:var(--perigo);font-weight:600;padding:2px 8px;border-radius:5px;font-size:12px}
+.sel-veto{background:var(--alerta-bg);color:var(--alerta);font-weight:600;padding:2px 8px;border-radius:5px;font-size:12px}
+.tudo-ok{padding:18px 14px;color:var(--ok);background:var(--ok-bg);font-size:13.5px;font-weight:500}
+
+.lista{display:flex;flex-direction:column;gap:8px}
+.item{background:var(--superficie);border:1px solid var(--borda);border-radius:var(--r);box-shadow:var(--sombra);padding:12px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.item .nome{font-weight:600;flex:1 1 150px;min-width:0}
+.item .meta{color:var(--tinta-fraca);font-size:13px;flex:1 1 140px;min-width:0}
+.item .acoes{display:flex;gap:6px;margin-left:auto}
+.num{font-family:var(--dados);font-size:13px;font-variant-numeric:tabular-nums;color:var(--tinta-fraca)}
+
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tag-ling{background:var(--ling-bg);color:var(--ling)}
+.tag-hum{background:var(--hum-bg);color:var(--hum)}
+.tag-mat{background:var(--mat-bg);color:var(--mat)}
+.tag-none{background:var(--papel);color:var(--tinta-tenue);border:1px solid var(--borda)}
+.veto-sel{font-family:var(--dados);font-size:11.5px;color:var(--perigo);background:var(--perigo-bg);padding:3px 8px;border-radius:4px;white-space:nowrap}
+
+.regras{background:var(--superficie);border:1px solid var(--borda);border-left:3px solid var(--acento);border-radius:var(--r);padding:14px;margin-bottom:16px}
+.regras h3{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta-fraca);margin-bottom:9px}
+.regras-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.regra{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--tinta-fraca)}
+.regra select{padding:4px 7px;border:1px solid var(--borda-forte);border-radius:5px;background:var(--papel);font-size:12.5px}
+
+.vazio{text-align:center;padding:40px 20px;color:var(--tinta-tenue);border:1px dashed var(--borda-forte);border-radius:var(--r)}
+.vazio strong{display:block;color:var(--tinta-fraca);font-size:15px;margin-bottom:5px}
+
+.fundo{position:fixed;inset:0;background:rgba(20,18,16,.45);display:flex;align-items:flex-end;justify-content:center;z-index:60}
+@media(min-width:620px){.fundo{align-items:center;padding:20px}}
+.modal{background:var(--superficie);border-radius:14px 14px 0 0;width:100%;max-width:440px;padding:20px;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 10px 40px rgba(0,0,0,.3);max-height:86vh;overflow-y:auto}
+@media(min-width:620px){.modal{border-radius:14px;padding-bottom:20px}}
+.modal h2{font-size:17px;margin-bottom:4px}
+.modal .onde{font-family:var(--dados);font-size:12px;color:var(--tinta-tenue);margin-bottom:15px}
+.campo{margin-bottom:13px}
+.campo label{display:block;font-size:12.5px;font-weight:600;color:var(--tinta-fraca);margin-bottom:5px}
+.campo input,.campo select{width:100%;padding:9px 11px;border:1px solid var(--borda-forte);border-radius:var(--r);background:var(--papel)}
+.campo .dica{font-size:12px;color:var(--tinta-tenue);margin-top:4px}
+.modal-acoes{display:flex;gap:9px;justify-content:flex-end;margin-top:17px;flex-wrap:wrap}
+.opcoes{display:flex;flex-direction:column;gap:3px;max-height:260px;overflow-y:auto;border:1px solid var(--borda);border-radius:var(--r);padding:5px;margin-top:5px}
+.opcao{text-align:left;border:0;background:none;padding:8px 10px;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.opcao:hover{background:var(--acento-suave)}
+.opcao .livre{margin-left:auto;font-size:11px;font-family:var(--dados)}
+.opcao .livre.sim{color:var(--ok)} .opcao .livre.nao{color:var(--perigo)}
+
+.aviso{border-radius:var(--r);padding:10px 13px;font-size:13.5px;margin-bottom:14px}
+.aviso.erro{background:var(--perigo-bg);color:var(--perigo)}
+.aviso.bom{background:var(--ok-bg);color:var(--ok)}
+.carregando{color:var(--tinta-tenue);font-size:13.5px;padding:28px 0;text-align:center}
+</style>
+
+<div class="topo">
+  <div class="topo-int">
+    <div class="marca">
+      <h1>Criador de Horário Escolar</h1>
+      <span class="sub">Grade, professores, disciplinas e turmas</span>
+    </div>
+    <div class="abas" role="tablist">
+      <button class="aba" role="tab" id="aba-grade" aria-selected="true">Grade <span class="cont" id="c-grade"></span></button>
+      <button class="aba" role="tab" id="aba-prof" aria-selected="false">Professores <span class="cont" id="c-prof"></span></button>
+      <button class="aba" role="tab" id="aba-disc" aria-selected="false">Disciplinas <span class="cont" id="c-disc"></span></button>
+      <button class="aba" role="tab" id="aba-turm" aria-selected="false">Turmas <span class="cont" id="c-turm"></span></button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div id="aviso" hidden class="aviso erro"></div>
+
+  <section id="p-grade">
+    <div class="dias" id="dias"></div>
+    <div class="barra">
+      <button class="btn btn-pri" id="auto">Preencher automático</button>
+      <button class="btn" id="desfazer" disabled>Desfazer</button>
+      <button class="btn" id="baixar">Baixar CSV</button>
+      <button class="btn" id="backup">Baixar backup</button>
+      <button class="btn" id="importar">Importar backup</button>
+      <input type="file" id="importar-arq" accept=".json,application/json" hidden>
+      <button class="btn" id="restaurar">Restaurar originais</button>
+      <button class="btn btn-pri" id="instalar" hidden>Instalar app</button>
+    </div>
+    <div class="rolagem"><div id="grade-tabela"><div class="carregando">Carregando grade…</div></div></div>
+    <div class="painel" id="painel-prob"></div>
+  </section>
+
+  <section id="p-prof" hidden>
+    <div class="regras">
+      <h3>Dias em que cada área não dá aula</h3>
+      <div class="regras-grid" id="regras-grid"></div>
+    </div>
+    <div class="barra">
+      <div class="busca"><input id="busca-prof" type="search" placeholder="Buscar professor" aria-label="Buscar professor"></div>
+      <div class="filtros" id="filtros-prof"></div>
+      <button class="btn btn-pri" id="novo-prof">+ Professor</button>
+    </div>
+    <div id="lista-prof" class="lista"></div>
+  </section>
+
+  <section id="p-disc" hidden>
+    <div class="barra">
+      <div class="busca"><input id="busca-disc" type="search" placeholder="Buscar disciplina" aria-label="Buscar disciplina"></div>
+      <button class="btn btn-pri" id="nova-disc">+ Disciplina</button>
+    </div>
+    <div id="lista-disc" class="lista"></div>
+  </section>
+
+  <section id="p-turm" hidden>
+    <div class="barra"><button class="btn btn-pri" id="nova-turm">+ Turma</button></div>
+    <div id="lista-turm" class="lista"></div>
+  </section>
+</main>
+
+<script src="dados/dados.js"></script>
+<script>
+/* ============ constantes ============ */
+const AREAS={ling:{nome:'Linguagens',curto:'Linguagens',classe:'tag-ling'},
+             hum:{nome:'Humanas',curto:'Humanas',classe:'tag-hum'},
+             mat:{nome:'Matemática e Ciências da Natureza',curto:'Mat. e Ciências',classe:'tag-mat'}};
+const DIAS=['segunda','terça','quarta','quinta','sexta'];
+const VETO_PADRAO={ling:3,hum:1,mat:2};   // índice do dia
+const NH=7;                                // horários por dia
+const FIXAS=['ELETIVA','PLANEJAMENTO COLETIVO','PLANEJAMENTO','LIVRE'];
+
+/* ============ estado ============ */
+
+let professores=[], disciplinas=[], turmas=[], grade={};  // grade[turmaId]['d-h']=texto
+let conjuntas={};   // "dia-hora-professor" -> aula conjunta: várias turmas juntas de propósito
+let vetos={...VETO_PADRAO};
+let diaAtual=0, abaAtual='grade', filtroArea='', buscaProf='', buscaDisc='';
+let anterior=null;
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const novoId=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const normal=s=>String(s??'').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().trim();
+
+function avisar(txt,bom){const a=$('#aviso');if(!txt){a.hidden=true;return}a.className='aviso '+(bom?'bom':'erro');a.textContent=txt;a.hidden=false}
+
+/* Resolve o texto de uma célula para um professor do cadastro.
+   "NATHAN/ RUBENS" e "NATHAN E.O CLEIDIMAR" -> quem assume é o nome depois da barra. */
+function quemOcupa(texto){
+  let t=normal(texto);
+  if(!t||FIXAS.includes(t))return null;
+  if(t.includes('/'))t=t.split('/').pop().trim();
+  else if(t.startsWith('NATHAN E.O'))t=t.slice(10).trim();
+  const primeiro=t.split(/\s+/)[0].replace(/[.,]+$/,'');
+  if(!primeiro)return null;
+  return professores.find(p=>normal(p.nome).split(/\s+/)[0].replace(/[.,]+$/,'')===primeiro)||null;
+}
+const ehFixa=t=>FIXAS.includes(normal(t));
+
+/* ============ análise ============ */
+// Dias em que o professor não dá aula: o da área dele mais o seu dia de planejamento
+function diasBloqueados(p){
+  const ds=[];
+  if(p&&p.area&&vetos[p.area]!==undefined)ds.push(vetos[p.area]);
+  if(p&&p.planeja!==''&&p.planeja!==undefined&&p.planeja!==null){const n=Number(p.planeja);if(!isNaN(n)&&!ds.includes(n))ds.push(n)}
+  return ds;
+}
+const motivoBloqueio=(p,d)=>(p.area&&vetos[p.area]===d)?AREAS[p.area].curto:'planejamento';
+
+const chaveConj=(d,h,pid)=>d+'-'+h+'-'+pid;
+const ehConjunta=(d,h,pid)=>!!conjuntas[chaveConj(d,h,pid)];
+
+function analisar(){
+  const choques=[], vetados=[], juntas=[];
+  for(let d=0;d<DIAS.length;d++){
+    for(let h=0;h<NH;h++){
+      const porProf=new Map();
+      for(const t of turmas){
+        const txt=(grade[t.id]||{})[d+'-'+h];
+        if(!txt)continue;
+        const p=quemOcupa(txt);
+        if(!p)continue;
+        if(!porProf.has(p.id))porProf.set(p.id,[]);
+        porProf.get(p.id).push({turma:t,texto:txt});
+        if(diasBloqueados(p).includes(d)&&!ehConjunta(d,h,p.id))vetados.push({d,h,prof:p,turma:t});
+      }
+      for(const [pid,ocs] of porProf){
+        if(ocs.length<2)continue;
+        const prof=professores.find(x=>x.id===pid);
+        if(ehConjunta(d,h,pid))juntas.push({d,h,prof,ocs,nota:conjuntas[chaveConj(d,h,pid)].nota||''});
+        else choques.push({d,h,prof,ocs});
+      }
+    }
+  }
+  return {choques,vetados,juntas};
+}
+function mapaProblemas(){
+  const {choques,vetados,juntas}=analisar();
+  const m=new Map();
+  const por=(d,h,t)=>d+'|'+h+'|'+t;
+  for(const c of choques)for(const o of c.ocs){
+    const k=por(c.d,c.h,o.turma.id); m.set(k,{...(m.get(k)||{}),choque:true});
+  }
+  for(const j of juntas)for(const o of j.ocs){
+    const k=por(j.d,j.h,o.turma.id); m.set(k,{...(m.get(k)||{}),junta:true});
+  }
+  for(const v of vetados){
+    const k=por(v.d,v.h,v.turma.id); m.set(k,{...(m.get(k)||{}),veto:true});
+  }
+  return {m,choques,vetados,juntas};
+}
+
+/* ============ grade ============ */
+function renderDias(){
+  const {choques}=analisar();
+  const porDia=DIAS.map((_,d)=>choques.filter(c=>c.d===d).length);
+  $('#c-grade').textContent=choques.length?choques.length:'';
+  $('#dias').innerHTML=DIAS.map((n,i)=>
+    `<button class="dia" data-d="${i}" aria-pressed="${i===diaAtual}">${n}-feira${porDia[i]?`<span class="pino">${porDia[i]}</span>`:''}</button>`).join('');
+  $('#dias').querySelectorAll('.dia').forEach(b=>b.onclick=()=>{diaAtual=+b.dataset.d;renderGrade()});
+}
+
+function renderGrade(){
+  renderDias();
+  const alvo=$('#grade-tabela');
+  if(!turmas.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhuma turma cadastrada</strong>Abra a aba Turmas e acrescente as turmas da escola.</div>`;$('#painel-prob').innerHTML='';return}
+  const {m}=mapaProblemas();
+  let html='<table class="grade"><thead><tr><th class="hora"></th>'+
+    turmas.map(t=>`<th>${esc(t.nome)}</th>`).join('')+'</tr></thead><tbody>';
+  for(let h=0;h<NH;h++){
+    html+=`<tr><th class="hora">${h+1}º</th>`;
+    for(const t of turmas){
+      const txt=(grade[t.id]||{})[diaAtual+'-'+h]||'';
+      const pr=m.get(diaAtual+'|'+h+'|'+t.id)||{};
+      const cls=[pr.choque?'choque':'',pr.junta?'junta':'',pr.veto?'veto':''].filter(Boolean).join(' ');
+      const cel=ehFixa(txt)?'cel fixa':(txt?'cel':'cel vaga');
+      html+=`<td class="${cls}"><button class="${cel}" data-h="${h}" data-t="${t.id}">${txt?esc(txt):'—'}</button></td>`;
+    }
+    html+='</tr>';
+  }
+  alvo.innerHTML=html+'</tbody></table>';
+  alvo.querySelectorAll('.cel').forEach(b=>b.onclick=()=>editarCelula(b.dataset.t,+b.dataset.h));
+  renderPainel();
+}
+
+function renderPainel(){
+  const {choques,vetados,juntas}=analisar();
+  const p=$('#painel-prob');
+  const itens=[
+    ...choques.map(c=>({d:c.d,h:c.h,pid:c.prof.id,tipo:'choque',
+      txt:`<strong>${esc(c.prof.nome)}</strong> em ${c.ocs.map(o=>esc(o.turma.nome)).join(', ')}`})),
+    ...vetados.map(v=>({d:v.d,h:v.h,pid:v.prof.id,tipo:'veto',
+      txt:`<strong>${esc(v.prof.nome)}</strong> em ${esc(v.turma.nome)}, num dia em que não dá aula (${esc(motivoBloqueio(v.prof,v.d))})`})),
+    ...juntas.map(j=>({d:j.d,h:j.h,pid:j.prof.id,tipo:'junta',
+      txt:`<strong>${esc(j.prof.nome)}</strong> com ${j.ocs.map(o=>esc(o.turma.nome)).join(', ')} juntas${j.nota?` — ${esc(j.nota)}`:''}`}))
+  ].sort((a,b)=>a.d-b.d||a.h-b.h);
+
+  if(!itens.length){
+    p.innerHTML=`<div class="tudo-ok">Semana sem choques: nenhum professor está em duas turmas ao mesmo tempo, e nenhuma área tem aula no dia em que não pode.</div>`;
+    return;
+  }
+  const titulo = choques.length
+    ? `${choques.length} choque${choques.length===1?'':'s'}${vetados.length?` e ${vetados.length} aula${vetados.length===1?'':'s'} em dia bloqueado`:''}`
+    : (vetados.length?`${vetados.length} aula${vetados.length===1?'':'s'} em dia bloqueado`:'Nenhum choque — só aulas conjuntas');
+  const rotulo={choque:['sel-choque','choque'],veto:['sel-veto','dia bloqueado'],junta:['sel-junta','aula conjunta']};
+
+  p.innerHTML=`<div class="painel-topo"><h3>${titulo}</h3></div>
+    <ul>${itens.map(i=>`<li>
+      <span class="${rotulo[i.tipo][0]}">${rotulo[i.tipo][1]}</span>
+      <span class="quando">${DIAS[i.d]} · ${i.h+1}º</span>
+      <span style="flex:1 1 180px;min-width:0">${i.txt}</span>
+      ${i.tipo==='choque'?`<button class="btn btn-min" data-marcar="${i.d}|${i.h}|${i.pid}">É aula conjunta</button>`:''}
+      ${i.tipo==='junta'?`<button class="btn btn-min btn-del" data-desmarcar="${i.d}|${i.h}|${i.pid}">Voltar a ser choque</button>`:''}
+      <button class="btn btn-min" data-ir="${i.d}">Ver na grade</button></li>`).join('')}</ul>`;
+
+  p.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>{
+    diaAtual=+b.dataset.ir;renderGrade();window.scrollTo({top:0,behavior:'smooth'});
+  });
+  p.querySelectorAll('[data-marcar]').forEach(b=>b.onclick=()=>formConjunta(...b.dataset.marcar.split('|')));
+  p.querySelectorAll('[data-desmarcar]').forEach(b=>b.onclick=()=>removerConjunta(...b.dataset.desmarcar.split('|')));
+}
+
+function formConjunta(d,h,pid){
+  d=+d;h=+h;
+  const prof=professores.find(x=>x.id===pid);
+  const turmasJuntas=turmas.filter(t=>{const q=quemOcupa((grade[t.id]||{})[d+'-'+h]);return q&&q.id===pid});
+  const f=abrirModal(`
+    <h2>Aula conjunta</h2>
+    <div class="onde">${DIAS[d]}-feira · ${h+1}º horário</div>
+    <p style="font-size:14px;color:var(--tinta-fraca);margin:0 0 14px">
+      <strong>${esc(prof.nome)}</strong> atende ${turmasJuntas.map(t=>esc(t.nome)).join(', ')} de uma vez só.
+      Deixa de contar como choque, e o preenchimento automático passa a manter essas aulas travadas nesse horário.</p>
+    <div class="campo"><label for="f-nota">O que é essa aula</label>
+      <input id="f-nota" placeholder="Ex.: Clube do Protagonismo"></div>
+    <div class="modal-acoes"><button class="btn" id="f-cancel">Cancelar</button>
+    <button class="btn btn-pri" id="f-ok">Marcar como conjunta</button></div>`);
+  f.querySelector('#f-cancel').onclick=()=>f.remove();
+  f.querySelector('#f-ok').onclick=async()=>{
+    const nota=f.querySelector('#f-nota').value.trim();
+    f.remove();
+    const k=chaveConj(d,h,pid);
+    conjuntas[k]={id:k,d,h,pid,nota};
+    renderGrade();
+    salvar();
+  };
+}
+async function removerConjunta(d,h,pid){
+  const k=chaveConj(+d,+h,pid);
+  delete conjuntas[k];
+  renderGrade();
+  salvar();
+}
+
+/* Está livre nesse dia/horário? (ignorando a turma que estamos editando) */
+function livreEm(prof,d,h,turmaIgnorar){
+  for(const t of turmas){
+    if(t.id===turmaIgnorar)continue;
+    const p=quemOcupa((grade[t.id]||{})[d+'-'+h]);
+    if(p&&p.id===prof.id)return false;
+  }
+  return true;
+}
+
+function editarCelula(turmaId,h){
+  const turma=turmas.find(t=>t.id===turmaId);
+  const atual=(grade[turmaId]||{})[diaAtual+'-'+h]||'';
+  const ord=[...professores].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'));
+  const f=abrirModal(`
+    <h2>${esc(turma.nome)}</h2>
+    <div class="onde">${DIAS[diaAtual]}-feira · ${h+1}º horário</div>
+    <div class="campo">
+      <label for="c-txt">O que fica nesse horário</label>
+      <input id="c-txt" value="${esc(atual)}" placeholder="Nome do professor, ELETIVA, ou vazio">
+      <div class="dica">Para substituição, escreva “Nathan/ Rubens”: quem conta é o nome depois da barra.</div>
+    </div>
+    <div class="campo"><label>Professores livres nesse horário</label>
+      <div class="opcoes" id="c-ops">
+        ${ord.map(p=>{
+          const livre=livreEm(p,diaAtual,h,turmaId);
+          const bloq=diasBloqueados(p).includes(diaAtual);
+          return `<button class="opcao" data-n="${esc(p.nome)}">
+            <span>${esc(p.nome)}</span>
+            ${p.area?`<span class="tag ${AREAS[p.area].classe}">${esc(AREAS[p.area].curto)}</span>`:''}
+            <span class="livre ${livre&&!bloq?'sim':'nao'}">${bloq?'dia bloqueado':(livre?'livre':'ocupado')}</span>
+          </button>`}).join('')}
+      </div>
+    </div>
+    <div class="modal-acoes">
+      <button class="btn" id="c-limpar">Deixar vazio</button>
+      <button class="btn" id="c-cancel">Cancelar</button>
+      <button class="btn btn-pri" id="c-ok">Salvar</button>
+    </div>`);
+  f.querySelectorAll('.opcao').forEach(o=>o.onclick=()=>{f.querySelector('#c-txt').value=o.dataset.n});
+  f.querySelector('#c-cancel').onclick=()=>f.remove();
+  f.querySelector('#c-limpar').onclick=()=>{f.remove();gravarCelula(turmaId,diaAtual,h,'')};
+  f.querySelector('#c-ok').onclick=()=>{const v=f.querySelector('#c-txt').value.trim();f.remove();gravarCelula(turmaId,diaAtual,h,v)};
+}
+
+async function gravarCelula(turmaId,d,h,valor){
+  guardarAnterior();
+  grade[turmaId]=grade[turmaId]||{};
+  if(valor)grade[turmaId][d+'-'+h]=valor; else delete grade[turmaId][d+'-'+h];
+  renderGrade();
+  await salvarTurmaGrade(turmaId);
+}
+
+/* ============ preenchimento automático ============ */
+function preencherAuto(){
+  // 1. demanda: quantas aulas cada professor tem em cada turma, hoje
+  const fixas={}, demanda={};
+  for(const t of turmas){
+    fixas[t.id]={}; demanda[t.id]=[];
+    const cels=grade[t.id]||{};
+    for(const k in cels){
+      const txt=cels[k];
+      if(ehFixa(txt)){fixas[t.id][k]=txt;continue}
+      const p=quemOcupa(txt);
+      const [kd,kh]=k.split('-').map(Number);
+      if(p&&ehConjunta(kd,kh,p.id)){fixas[t.id][k]=txt;continue}  // aula conjunta fica travada
+      if(p)demanda[t.id].push({pid:p.id,texto:txt});
+      else fixas[t.id][k]=txt;   // texto que não bate com ninguém fica onde está
+    }
+  }
+  const prof=id=>professores.find(p=>p.id===id);
+  const slots=[];for(let d=0;d<DIAS.length;d++)for(let h=0;h<NH;h++)slots.push([d,h]);
+  const emb=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+  // carga total de cada professor: quem tem mais aula é o mais difícil de encaixar
+  const carga={};
+  for(const t of turmas)for(const it of demanda[t.id])carga[it.pid]=(carga[it.pid]||0)+1;
+  const bloqueadoDe={};
+  for(const p of professores)bloqueadoDe[p.id]=diasBloqueados(p);
+
+  const prazo=Date.now()+2500;
+  let melhor=null;
+  for(let tent=0;tent<400;tent++){
+    const ocupado=new Map();              // "d-h" -> Set de professores já nesse horário
+    const usados=new Map();               // "turma|prof" -> Set de dias já usados nessa turma
+    const nova={}; let faltou=0;
+    for(const t of turmas){
+      nova[t.id]={...fixas[t.id]};
+      for(const k in fixas[t.id]){
+        const p=quemOcupa(fixas[t.id][k]);
+        if(p){if(!ocupado.has(k))ocupado.set(k,new Set());ocupado.get(k).add(p.id)}
+      }
+    }
+    const ordem=[];
+    for(const t of turmas)for(const it of demanda[t.id])ordem.push({t,it,r:Math.random()});
+    ordem.sort((a,b)=>(carga[b.it.pid]-carga[a.it.pid])||(a.r-b.r));
+
+    for(const {t,it} of ordem){
+      const bloq=bloqueadoDe[it.pid]||[];
+      const chaveU=t.id+'|'+it.pid;
+      if(!usados.has(chaveU))usados.set(chaveU,new Set());
+      const jaUsou=usados.get(chaveU);
+      let escolha=null, escolhaRuim=null;
+      for(const [d,h] of emb(slots.slice())){
+        if(bloq.includes(d))continue;
+        const k=d+'-'+h;
+        if(nova[t.id][k])continue;
+        const oc=ocupado.get(k);
+        if(oc&&oc.has(it.pid))continue;
+        if(!jaUsou.has(d)){escolha=[d,h,k];break}   // prefere espalhar pelos dias
+        if(!escolhaRuim)escolhaRuim=[d,h,k];
+      }
+      const alvo=escolha||escolhaRuim;
+      if(!alvo){faltou++;continue}
+      const [d,h,k]=alvo;
+      nova[t.id][k]=it.texto; jaUsou.add(d);
+      if(!ocupado.has(k))ocupado.set(k,new Set());
+      ocupado.get(k).add(it.pid);
+    }
+    if(!melhor||faltou<melhor.faltou)melhor={nova,faltou};
+    if(faltou===0||Date.now()>prazo)break;
+  }
+  return melhor;
+}
+
+$('#auto').onclick=async()=>{
+  const btn=$('#auto');btn.disabled=true;btn.textContent='Distribuindo…';
+  await new Promise(r=>setTimeout(r,20));
+  const r=preencherAuto();
+  btn.disabled=false;btn.textContent='Preencher automático';
+  if(!r){avisar('Não há nada para distribuir.');return}
+  guardarAnterior();
+  grade=r.nova; renderGrade();
+  const {choques,vetados}=analisar();
+  if(r.faltou) avisar(`Distribuí a semana, mas ${r.faltou} aula${r.faltou===1?' não coube':'s não couberam'} sem criar choque. Elas ficaram de fora — confira as turmas e ajuste na mão.`);
+  else if(choques.length||vetados.length) avisar(`Distribuí a semana, mas sobraram ${choques.length} choque(s).`);
+  else avisar('Semana redistribuída: nenhum choque e nenhuma aula em dia bloqueado. A carga de cada professor em cada turma continua a mesma.',true);
+  await salvarTudo();
+};
+
+function guardarAnterior(){anterior=JSON.parse(JSON.stringify(grade));$('#desfazer').disabled=false}
+$('#desfazer').onclick=async()=>{
+  if(!anterior)return;
+  grade=anterior;anterior=null;$('#desfazer').disabled=true;
+  renderGrade();avisar('');await salvarTudo();
+};
+
+/* ============ CSV ============ */
+$('#baixar').onclick=()=>{
+  const linhas=[['Dia','Horário',...turmas.map(t=>t.nome)]];
+  for(let d=0;d<DIAS.length;d++)for(let h=0;h<NH;h++)
+    linhas.push([DIAS[d],(h+1)+'º',...turmas.map(t=>(grade[t.id]||{})[d+'-'+h]||'')]);
+  const csv='\uFEFF'+linhas.map(l=>l.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(';')).join('\n');
+  baixarArquivo('horario-matutino.csv',csv,'text/csv;charset=utf-8');
+};
+$('#backup').onclick=()=>{
+  baixarArquivo('criador-horario-backup.json',JSON.stringify(estadoAtual(),null,2),'application/json');
+};
+$('#importar').onclick=()=>$('#importar-arq').click();
+$('#importar-arq').onchange=async e=>{
+  const arq=e.target.files[0]; e.target.value='';
+  if(!arq)return;
+  let d;
+  try{ d=JSON.parse(await arq.text()) }catch(err){ avisar('Esse arquivo não é um backup válido (não consegui ler o JSON).');return }
+  if(!d||!Array.isArray(d.professores)||!Array.isArray(d.turmas)||!Array.isArray(d.grade)){
+    avisar('Esse arquivo não parece um backup do Criador de Horário: faltam professores, turmas ou grade.');return}
+  const f=abrirModal(`
+    <h2>Importar este backup?</h2>
+    <p style="color:var(--tinta-fraca);font-size:14px;margin:0 0 2px">
+      O que está neste aparelho será substituído pelo conteúdo de <b>${esc(arq.name)}</b>
+      (${d.professores.length} professores, ${d.turmas.length} turmas).</p>
+    <div class="modal-acoes"><button class="btn" id="i-cancel">Cancelar</button>
+    <button class="btn btn-pri" id="i-ok">Importar</button></div>`);
+  f.querySelector('#i-cancel').onclick=()=>f.remove();
+  f.querySelector('#i-ok').onclick=()=>{
+    f.remove();
+    aplicar(d);salvar();
+    renderRegras();renderGrade();renderProf();renderDisc();renderTurm();
+    avisar('Backup importado.',true);
+  };
+};
+$('#restaurar').onclick=()=>{
+  const f=abrirModal(`
+    <h2>Restaurar os dados originais?</h2>
+    <p style="color:var(--tinta-fraca);font-size:14px;margin:0 0 2px">
+      Tudo o que você alterou neste navegador será descartado, e o app volta ao conteúdo de <b>dados/dados.js</b>.
+      Baixe um backup antes, se quiser guardar o estado atual.</p>
+    <div class="modal-acoes"><button class="btn" id="r-cancel">Cancelar</button>
+    <button class="btn btn-pri" id="r-ok" style="background:var(--perigo);border-color:var(--perigo);color:#fff">Restaurar</button></div>`);
+  f.querySelector('#r-cancel').onclick=()=>f.remove();
+  f.querySelector('#r-ok').onclick=()=>{
+    f.remove();
+    if(typeof window.DADOS_INICIAIS==='undefined'){avisar('dados/dados.js não foi carregado; não há o que restaurar.');return}
+    aplicar(window.DADOS_INICIAIS);salvar();
+    renderRegras();renderGrade();renderProf();renderDisc();renderTurm();
+    avisar('Dados originais restaurados.',true);
+  };
+};
+
+/* ============ abas ============ */
+const SECOES={grade:'#p-grade',prof:'#p-prof',disc:'#p-disc',turm:'#p-turm'};
+document.querySelectorAll('.aba').forEach(b=>b.onclick=()=>{
+  abaAtual=b.id.replace('aba-','');
+  document.querySelectorAll('.aba').forEach(x=>x.setAttribute('aria-selected',String(x===b)));
+  for(const k in SECOES)$(SECOES[k]).hidden=(k!==abaAtual);
+  avisar('');
+});
+
+/* ============ regras de área ============ */
+function renderRegras(){
+  $('#regras-grid').innerHTML=Object.entries(AREAS).map(([k,v])=>`
+    <div class="regra">
+      <span class="tag ${v.classe}">${esc(v.curto)}</span><span>não dá aula na</span>
+      <select data-area="${k}" aria-label="Dia sem aula de ${esc(v.nome)}">
+        ${DIAS.map((d,i)=>`<option value="${i}"${vetos[k]===i?' selected':''}>${d}-feira</option>`).join('')}
+        <option value=""${vetos[k]===undefined?' selected':''}>sem restrição</option>
+      </select>
+    </div>`).join('');
+  $('#regras-grid').querySelectorAll('select').forEach(s=>s.onchange=async()=>{
+    if(s.value==='')delete vetos[s.dataset.area]; else vetos[s.dataset.area]=+s.value;
+    renderProf();renderGrade();await salvarConfig();
+  });
+}
+
+/* ============ professores ============ */
+function renderProf(){
+  $('#c-prof').textContent=professores.length||'';
+  $('#filtros-prof').innerHTML=[['','Todas'],...Object.entries(AREAS).map(([k,v])=>[k,v.curto])]
+    .map(([k,r])=>`<button class="chip" data-a="${k}" aria-pressed="${filtroArea===k}">${esc(r)}</button>`).join('');
+  $('#filtros-prof').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{filtroArea=c.dataset.a;renderProf()});
+  const q=buscaProf.trim().toLowerCase();
+  const vis=professores.filter(p=>(!filtroArea||p.area===filtroArea)&&
+      (!q||(p.nome||'').toLowerCase().includes(q)||(p.disciplina||'').toLowerCase().includes(q)))
+    .sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'));
+  const alvo=$('#lista-prof');
+  if(!professores.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhum professor cadastrado</strong>Use “+ Professor” para começar.</div>`;return}
+  if(!vis.length){alvo.innerHTML=`<div class="vazio"><strong>Nada encontrado</strong>Ajuste a busca ou o filtro.</div>`;return}
+  alvo.innerHTML=vis.map(p=>{
+    const n=contarAulas(p);
+    const v=diasBloqueados(p).sort().map(d=>`<span class="veto-sel">sem aula ${DIAS[d]}</span>`).join(' ');
+    return `<div class="item">
+      <span class="nome">${esc(p.nome)}</span>
+      <span class="meta">${p.disciplina?esc(p.disciplina):'<span style="color:var(--tinta-tenue)">disciplina não definida</span>'}</span>
+      <span class="num">${n} aula${n===1?'':'s'}/semana</span>
+      <span class="tag ${p.area?AREAS[p.area].classe:'tag-none'}">${p.area?esc(AREAS[p.area].curto):'sem área'}</span> ${v}
+      <span class="acoes"><button class="btn btn-min" data-ed="${p.id}">Editar</button>
+      <button class="btn btn-min btn-del" data-rm="${p.id}">Excluir</button></span></div>`}).join('');
+  alvo.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>formProf(professores.find(p=>p.id===b.dataset.ed)));
+  alvo.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>confirmar(professores.find(p=>p.id===b.dataset.rm),'professores'));
+}
+function contarAulas(p){
+  let n=0;
+  for(const t of turmas){const c=grade[t.id]||{};for(const k in c){const q=quemOcupa(c[k]);if(q&&q.id===p.id)n++}}
+  return n;
+}
+
+function abrirModal(html){
+  const f=document.createElement('div');f.className='fundo';
+  f.innerHTML=`<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
+  document.body.appendChild(f);
+  f.onclick=e=>{if(e.target===f)f.remove()};
+  const pr=f.querySelector('input,select');if(pr)pr.focus();
+  return f;
+}
+
+function formProf(p){
+  const novo=!p;p=p||{id:novoId('p-'),nome:'',area:'',disciplina:'',planeja:''};
+  const f=abrirModal(`
+    <h2>${novo?'Novo professor':'Editar professor'}</h2><div class="onde"></div>
+    <div class="campo"><label for="f-nome">Nome</label><input id="f-nome" value="${esc(p.nome)}" placeholder="Ex.: Rosiane"></div>
+    <div class="campo"><label for="f-area">Área</label><select id="f-area">
+      <option value="">Sem área definida</option>
+      ${Object.entries(AREAS).map(([k,v])=>`<option value="${k}"${p.area===k?' selected':''}>${esc(v.nome)}</option>`).join('')}
+    </select><div class="dica">A área define em que dia esse professor não pode ter aula.</div></div>
+    <div class="campo"><label for="f-disc">Disciplina</label>
+      <select id="f-disc">
+        <option value="">Sem disciplina definida</option>
+        ${[...disciplinas].sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'))
+          .map(d=>`<option value="${esc(d.nome)}"${p.disciplina===d.nome?' selected':''}>${esc(d.nome)}</option>`).join('')}
+        ${p.disciplina&&!disciplinas.some(d=>d.nome===p.disciplina)
+          ? `<option value="${esc(p.disciplina)}" selected>${esc(p.disciplina)} (fora do cadastro)</option>`:''}
+      </select>
+      <div class="dica">A lista vem da aba Disciplinas. Para acrescentar uma, cadastre-a lá primeiro.</div></div>
+    <div class="campo"><label for="f-plan">Dia de planejamento</label>
+      <select id="f-plan">
+        <option value="">Não tem dia fixo</option>
+        ${DIAS.map((d,i)=>`<option value="${i}"${String(p.planeja)===String(i)?' selected':''}>${d}-feira</option>`).join('')}
+      </select>
+      <div class="dica">Nesse dia o professor não dá aula, além do dia bloqueado pela área.</div></div>
+    <div class="modal-acoes"><button class="btn" id="f-cancel">Cancelar</button><button class="btn btn-pri" id="f-ok">Salvar</button></div>`);
+  // escolher a disciplina sugere a área dela, quando a do professor ainda está em branco
+  f.querySelector('#f-disc').onchange=e=>{
+    const d=disciplinas.find(x=>x.nome===e.target.value);
+    const sa=f.querySelector('#f-area');
+    if(d&&d.area&&!sa.value)sa.value=d.area;
+  };
+  f.querySelector('#f-cancel').onclick=()=>f.remove();
+  f.querySelector('#f-ok').onclick=async()=>{
+    const nome=f.querySelector('#f-nome').value.trim();
+    if(!nome){f.querySelector('#f-nome').focus();return}
+    const reg={id:p.id,nome,area:f.querySelector('#f-area').value,
+               disciplina:f.querySelector('#f-disc').value,planeja:f.querySelector('#f-plan').value};
+    f.remove();
+    const i=professores.findIndex(x=>x.id===reg.id);
+    if(i>=0)professores[i]=reg;else professores.push(reg);
+    renderProf();renderGrade();await gravar('professores',reg);
+  };
+}
+
+/* ============ disciplinas ============ */
+function renderDisc(){
+  $('#c-disc').textContent=disciplinas.length||'';
+  const q=buscaDisc.trim().toLowerCase();
+  const vis=disciplinas.filter(d=>!q||(d.nome||'').toLowerCase().includes(q))
+    .sort((a,b)=>(a.nome||'').localeCompare(b.nome||'','pt-BR'));
+  const alvo=$('#lista-disc');
+  if(!disciplinas.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhuma disciplina cadastrada</strong>Use “+ Disciplina” para começar.</div>`;return}
+  if(!vis.length){alvo.innerHTML=`<div class="vazio"><strong>Nada encontrado</strong>Ajuste a busca.</div>`;return}
+  alvo.innerHTML=vis.map(d=>`<div class="item">
+      <span class="nome">${esc(d.nome)}</span>
+      <span class="num">${d.aulas?esc(d.aulas)+' aula'+(Number(d.aulas)===1?'':'s')+' por semana':'carga não definida'}</span>
+      <span class="tag ${d.area?AREAS[d.area].classe:'tag-none'}">${d.area?esc(AREAS[d.area].curto):'sem área'}</span>
+      <span class="acoes"><button class="btn btn-min" data-ed="${d.id}">Editar</button>
+      <button class="btn btn-min btn-del" data-rm="${d.id}">Excluir</button></span></div>`).join('');
+  alvo.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>formDisc(disciplinas.find(d=>d.id===b.dataset.ed)));
+  alvo.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>confirmar(disciplinas.find(d=>d.id===b.dataset.rm),'disciplinas'));
+}
+function formDisc(d){
+  const novo=!d;d=d||{id:novoId('d-'),nome:'',area:'',aulas:''};
+  const f=abrirModal(`
+    <h2>${novo?'Nova disciplina':'Editar disciplina'}</h2><div class="onde"></div>
+    <div class="campo"><label for="f-dnome">Nome</label><input id="f-dnome" value="${esc(d.nome)}" placeholder="Ex.: Matemática"></div>
+    <div class="campo"><label for="f-darea">Área</label><select id="f-darea">
+      <option value="">Sem área definida</option>
+      ${Object.entries(AREAS).map(([k,v])=>`<option value="${k}"${d.area===k?' selected':''}>${esc(v.nome)}</option>`).join('')}
+    </select></div>
+    <div class="campo"><label for="f-daulas">Aulas por semana, em cada turma</label>
+      <input id="f-daulas" type="number" min="0" max="20" value="${esc(d.aulas)}" placeholder="Ex.: 2"></div>
+    <div class="modal-acoes"><button class="btn" id="f-cancel">Cancelar</button><button class="btn btn-pri" id="f-ok">Salvar</button></div>`);
+  f.querySelector('#f-cancel').onclick=()=>f.remove();
+  f.querySelector('#f-ok').onclick=async()=>{
+    const nome=f.querySelector('#f-dnome').value.trim();
+    if(!nome){f.querySelector('#f-dnome').focus();return}
+    const reg={id:d.id,nome,area:f.querySelector('#f-darea').value,aulas:f.querySelector('#f-daulas').value};
+    f.remove();
+    const i=disciplinas.findIndex(x=>x.id===reg.id);
+    if(i>=0)disciplinas[i]=reg;else disciplinas.push(reg);
+    renderDisc();await gravar('disciplinas',reg);
+  };
+}
+
+/* ============ turmas ============ */
+function renderTurm(){
+  $('#c-turm').textContent=turmas.length||'';
+  const alvo=$('#lista-turm');
+  if(!turmas.length){alvo.innerHTML=`<div class="vazio"><strong>Nenhuma turma cadastrada</strong>Use “+ Turma” para começar.</div>`;return}
+  alvo.innerHTML=turmas.map(t=>{
+    const n=Object.keys(grade[t.id]||{}).length;
+    return `<div class="item"><span class="nome">${esc(t.nome)}</span>
+      <span class="num">${n} de ${DIAS.length*NH} horários preenchidos</span>
+      <span class="acoes"><button class="btn btn-min" data-ed="${t.id}">Renomear</button>
+      <button class="btn btn-min btn-del" data-rm="${t.id}">Excluir</button></span></div>`}).join('');
+  alvo.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>formTurm(turmas.find(t=>t.id===b.dataset.ed)));
+  alvo.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>confirmar(turmas.find(t=>t.id===b.dataset.rm),'turmas'));
+}
+function formTurm(t){
+  const novo=!t;t=t||{id:novoId('t-'),nome:'',ordem:turmas.length};
+  const f=abrirModal(`
+    <h2>${novo?'Nova turma':'Renomear turma'}</h2><div class="onde"></div>
+    <div class="campo"><label for="f-tnome">Nome da turma</label>
+      <input id="f-tnome" value="${esc(t.nome)}" placeholder="Ex.: 6º I M 01"></div>
+    <div class="modal-acoes"><button class="btn" id="f-cancel">Cancelar</button><button class="btn btn-pri" id="f-ok">Salvar</button></div>`);
+  f.querySelector('#f-cancel').onclick=()=>f.remove();
+  f.querySelector('#f-ok').onclick=async()=>{
+    const nome=f.querySelector('#f-tnome').value.trim();
+    if(!nome){f.querySelector('#f-tnome').focus();return}
+    const reg={id:t.id,nome,ordem:t.ordem};
+    f.remove();
+    const i=turmas.findIndex(x=>x.id===reg.id);
+    if(i>=0)turmas[i]=reg;else turmas.push(reg);
+    turmas.sort((a,b)=>(a.ordem??0)-(b.ordem??0));
+    renderTurm();renderGrade();await gravar('turmas',reg);
+  };
+}
+
+function confirmar(reg,col){
+  if(!reg)return;
+  const extra=col==='turmas'?' O horário montado para ela também sai.':'';
+  const f=abrirModal(`
+    <h2>Excluir ${esc(reg.nome)}?</h2>
+    <p style="color:var(--tinta-fraca);font-size:14px;margin:0 0 2px">Esse cadastro sai da lista para todo mundo que abrir a página.${extra}</p>
+    <div class="modal-acoes"><button class="btn" id="f-cancel">Manter</button>
+    <button class="btn btn-pri" id="f-ok" style="background:var(--perigo);border-color:var(--perigo);color:#fff">Excluir</button></div>`);
+  f.querySelector('#f-cancel').onclick=()=>f.remove();
+  f.querySelector('#f-ok').onclick=async()=>{
+    f.remove();
+    if(col==='professores'){professores=professores.filter(x=>x.id!==reg.id);renderProf();renderGrade()}
+    else if(col==='disciplinas'){disciplinas=disciplinas.filter(x=>x.id!==reg.id);renderDisc()}
+    else{turmas=turmas.filter(x=>x.id!==reg.id);delete grade[reg.id];renderTurm();renderGrade()}
+    salvar();
+  };
+}
+
+/* ============ persistência: localStorage deste navegador ============ */
+const CHAVE='criador-horario-escolar/v1';
+
+function estadoAtual(){
+  return {
+    professores, disciplinas,
+    turmas: turmas.map(t=>({id:t.id,nome:t.nome,ordem:t.ordem})),
+    grade: turmas.map(t=>({id:t.id,celulas:grade[t.id]||{}})),
+    conjuntas: Object.values(conjuntas),
+    config: {vetos, dias:DIAS, horariosPorDia:NH}
+  };
+}
+function salvar(){
+  try{ localStorage.setItem(CHAVE, JSON.stringify(estadoAtual())); avisar('') }
+  catch(e){ avisar('Não consegui salvar neste navegador. Em janela anônima ou com os dados do site bloqueados, as alterações se perdem ao fechar.') }
+}
+function aplicar(d){
+  if(!d)return false;
+  professores = d.professores||[];
+  disciplinas = d.disciplinas||[];
+  turmas = (d.turmas||[]).slice().sort((a,b)=>(a.ordem??0)-(b.ordem??0));
+  grade = {}; (d.grade||[]).forEach(g=>{grade[g.id]=g.celulas||{}});
+  conjuntas = {}; (d.conjuntas||[]).forEach(c=>{conjuntas[c.id]=c});
+  vetos = {...VETO_PADRAO, ...((d.config||{}).vetos||{})};
+  return true;
+}
+function carregar(){
+  let guardado=null;
+  try{ const t=localStorage.getItem(CHAVE); if(t)guardado=JSON.parse(t) }catch(e){}
+  if(guardado && aplicar(guardado))return 'guardado';
+  if(typeof window.DADOS_INICIAIS!=='undefined' && aplicar(window.DADOS_INICIAIS)){salvar();return 'inicial'}
+  return 'vazio';
+}
+
+// as funções abaixo mantêm os nomes de antes; agora todas gravam o estado inteiro
+async function gravar(){ salvar() }
+async function salvarTurmaGrade(){ salvar() }
+async function salvarTudo(){ salvar() }
+async function salvarConfig(){ salvar() }
+
+function baixarArquivo(nome, texto, tipo){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([texto],{type:tipo}));
+  a.download=nome; document.body.appendChild(a); a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},0);
+}
+
+/* ============ ligações ============ */
+$('#novo-prof').onclick=()=>formProf(null);
+$('#nova-disc').onclick=()=>formDisc(null);
+$('#nova-turm').onclick=()=>formTurm(null);
+$('#busca-prof').oninput=e=>{buscaProf=e.target.value;renderProf()};
+$('#busca-disc').oninput=e=>{buscaDisc=e.target.value;renderDisc()};
+
+renderRegras();renderGrade();renderProf();renderDisc();renderTurm();
+
+/* ============ carga inicial ============ */
+const origem=carregar();
+renderRegras();renderGrade();renderProf();renderDisc();renderTurm();
+if(origem==='vazio')
+  avisar('Nenhum dado encontrado. O arquivo dados/dados.js não foi carregado — confira se ele está na pasta, ao lado do index.html.');
+else if(origem==='inicial')
+  avisar('Dados iniciais carregados. A partir de agora suas alterações ficam guardadas neste navegador.',true);
+
+/* ============ PWA: funciona offline e pode ser instalado ============ */
+// só roda quando o app é servido por http(s); aberto direto do arquivo, segue funcionando sem isso
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+let pedidoInstalar=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();pedidoInstalar=e;$('#instalar').hidden=false});
+window.addEventListener('appinstalled',()=>{pedidoInstalar=null;$('#instalar').hidden=true});
+$('#instalar').onclick=async()=>{
+  if(!pedidoInstalar)return;
+  pedidoInstalar.prompt(); await pedidoInstalar.userChoice;
+  pedidoInstalar=null; $('#instalar').hidden=true;
+};
+
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "vetos": {
+    "ling": 3,
+    "hum": 1,
+    "mat": 2
+  },
+  "dias": [
+    "segunda",
+    "terça",
+    "quarta",
+    "quinta",
+    "sexta"
+  ],
+  "horariosPorDia": 7
+}

@@ -1,0 +1,191 @@
+[
+  {
+    "area": "mat",
+    "disciplina": "Matemática",
+    "id": "p-adilson",
+    "nome": "Adilson"
+  },
+  {
+    "area": "ling",
+    "disciplina": "Arte",
+    "id": "p-adriana",
+    "nome": "Adriana"
+  },
+  {
+    "area": "ling",
+    "disciplina": "Educação Física",
+    "id": "p-amanda",
+    "nome": "Amanda"
+  },
+  {
+    "area": "hum",
+    "disciplina": "Estudo Orientado",
+    "id": "p-anapaula",
+    "nome": "Ana Paula"
+  },
+  {
+    "area": "hum",
+    "disciplina": "Geografia",
+    "id": "p-anselma",
+    "nome": "Anselma",
+    "planeja": ""
+  },
+  {
+    "area": "",
+    "disciplina": "",
+    "id": "p-bianca",
+    "nome": "Bianca"
+  },
+  {
+    "area": "",
+    "disciplina": "",
+    "id": "p-breno",
+    "nome": "Breno"
+  },
+  {
+    "area": "ling",
+    "disciplina": "Educação Física",
+    "id": "p-bruno",
+    "nome": "Bruno"
+  },
+  {
+    "area": "hum",
+    "disciplina": "Estudo Orientado",
+    "id": "p-carla",
+    "nome": "Carla"
+  },
+  {
+    "area": "ling",
+    "disciplina": "Língua Inglesa",
+    "id": "p-cleidimar",
+    "nome": "Cleidimar"
+  },
+  {
+    "area": "mat",
+    "disciplina": "Ciências",
+    "id": "p-danubia",
+    "nome": "Danúbia"
+  },
+  {
+    "area": "mat",
+    "disciplina": "Ciências",
+    "id": "p-darlene",
+    "nome": "Darlene"
+  },
+  {
+    "area": "ling",
+    "disciplina": "Língua Portuguesa",
+    "id": "p-dayane",
+    "nome": "Dayane"
+  },
+  {
+    "area": "mat",
+    "disciplina": "Matemática",
+    "id": "p-deibith",
+    "nome": "Deibith"
+  },
+  {
+    "area": "mat",
+    "disciplina": "Matemática",
+    "id": "p-diego",
+    "nome": "Diego",
+    "planeja": "2"
+  },
+  {
+    "area": "mat",
+    "disciplina": "Ciências",
+    "id": "p-fernanda",
+    "nome": "Fernanda",
+    "planeja": ""
+  },
+  {
+    "area": "mat",
+    "disciplina": "Matemática",
+    "id": "p-gleucia",
+    "nome": "Gleucia",
+    "planeja": ""
+  },
+  {
+    "area": "mat",
+    "disciplina": "Ciências",
+    "id": "p-ivaneth",
+    "nome": "Ivaneth",
+    "planeja": ""
+  },
+  {
+    "area": "ling",
+    "disciplina": "Língua Inglesa",
+    "id": "p-kenia",
+    "nome": "Kênia",
+    "planeja": ""
+  },
+  {
+    "area": "",
+    "disciplina": "",
+    "id": "p-leorrayne",
+    "nome": "Leorrayne",
+    "planeja": ""
+  },
+  {
+    "area": "hum",
+    "disciplina": "Geografia",
+    "id": "p-nathan",
+    "nome": "Nathan",
+    "planeja": ""
+  },
+  {
+    "area": "ling",
+    "disciplina": "Língua Portuguesa",
+    "id": "p-neidimar",
+    "nome": "Neidimar",
+    "planeja": ""
+  },
+  {
+    "area": "ling",
+    "disciplina": "Língua Portuguesa",
+    "id": "p-pamella",
+    "nome": "Pâmella",
+    "planeja": ""
+  },
+  {
+    "area": "mat",
+    "disciplina": "",
+    "id": "p-roberto",
+    "nome": "Roberto",
+    "planeja": ""
+  },
+  {
+    "area": "",
+    "disciplina": "",
+    "id": "p-rodolpho",
+    "nome": "Rodolpho"
+  },
+  {
+    "area": "hum",
+    "disciplina": "",
+    "id": "p-romildo",
+    "nome": "Romildo",
+    "planeja": ""
+  },
+  {
+    "area": "mat",
+    "disciplina": "Matemática",
+    "id": "p-rosiane",
+    "nome": "Rosiane",
+    "planeja": ""
+  },
+  {
+    "area": "hum",
+    "disciplina": "Geografia",
+    "id": "p-rubens",
+    "nome": "Rubens",
+    "planeja": ""
+  },
+  {
+    "area": "hum",
+    "disciplina": "Projeto de Vida",
+    "id": "p-santa",
+    "nome": "Santa",
+    "planeja": "1"
+  }
+]

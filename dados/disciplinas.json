@@ -1,0 +1,122 @@
+[
+  {
+    "area": "ling",
+    "aulas": "",
+    "id": "d-arte",
+    "nome": "Arte"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-biologia",
+    "nome": "Biologia"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-ciencias",
+    "nome": "Ciências"
+  },
+  {
+    "area": "ling",
+    "aulas": "2",
+    "id": "d-edfisica",
+    "nome": "Educação Física"
+  },
+  {
+    "area": "",
+    "aulas": "",
+    "id": "d-eletivas",
+    "nome": "Eletivas"
+  },
+  {
+    "area": "",
+    "aulas": "",
+    "id": "d-estudoorientado",
+    "nome": "Estudo Orientado"
+  },
+  {
+    "area": "hum",
+    "aulas": "",
+    "id": "d-filosofia",
+    "nome": "Filosofia"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-fisica",
+    "nome": "Física"
+  },
+  {
+    "area": "hum",
+    "aulas": "",
+    "id": "d-geografia",
+    "nome": "Geografia"
+  },
+  {
+    "area": "hum",
+    "aulas": "",
+    "id": "d-historia",
+    "nome": "História"
+  },
+  {
+    "area": "ling",
+    "aulas": "",
+    "id": "d-ingles",
+    "nome": "Língua Inglesa"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-matematica",
+    "nome": "Matemática"
+  },
+  {
+    "area": "",
+    "aulas": "",
+    "id": "d-pensamentocient",
+    "nome": "Pensamento Científico"
+  },
+  {
+    "area": "ling",
+    "aulas": "",
+    "id": "d-portugues",
+    "nome": "Língua Portuguesa"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-praticasciencias",
+    "nome": "Práticas Experimentais de Ciências"
+  },
+  {
+    "area": "",
+    "aulas": "",
+    "id": "d-projetovida",
+    "nome": "Projeto de Vida"
+  },
+  {
+    "area": "",
+    "aulas": "",
+    "id": "d-protagonismo",
+    "nome": "Práticas e Vivências em Protagonismo"
+  },
+  {
+    "area": "mat",
+    "aulas": "",
+    "id": "d-quimica",
+    "nome": "Química"
+  },
+  {
+    "area": "hum",
+    "aulas": "",
+    "id": "d-religioso",
+    "nome": "Ensino Religioso"
+  },
+  {
+    "area": "hum",
+    "aulas": "",
+    "id": "d-sociologia",
+    "nome": "Sociologia"
+  }
+]

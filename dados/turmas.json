@@ -1,0 +1,72 @@
+[
+  {
+    "id": "t3esp",
+    "nome": "3ª I M 01 ESP",
+    "ordem": 13
+  },
+  {
+    "id": "t3tec",
+    "nome": "3ª I 01 TEC ADM",
+    "ordem": 12
+  },
+  {
+    "id": "t6a",
+    "nome": "6º I M 01",
+    "ordem": 0
+  },
+  {
+    "id": "t6b",
+    "nome": "6º I M 02",
+    "ordem": 1
+  },
+  {
+    "id": "t6c",
+    "nome": "6º I M 03",
+    "ordem": 2
+  },
+  {
+    "id": "t7a",
+    "nome": "7º I M 01",
+    "ordem": 3
+  },
+  {
+    "id": "t7b",
+    "nome": "7º I M 02",
+    "ordem": 4
+  },
+  {
+    "id": "t7c",
+    "nome": "7º I M 03",
+    "ordem": 5
+  },
+  {
+    "id": "t8a",
+    "nome": "8º I M 01",
+    "ordem": 6
+  },
+  {
+    "id": "t8b",
+    "nome": "8º I M 02",
+    "ordem": 7
+  },
+  {
+    "id": "t8c",
+    "nome": "8º I M 03",
+    "ordem": 8
+  },
+  {
+    "id": "t9a",
+    "nome": "9º I M 01",
+    "ordem": 9
+  },
+  {
+    "id": "t9b",
+    "nome": "9º I M 02",
+    "ordem": 10
+  },
+  {
+    "id": "t9c",
+    "nome": "9º I M 03",
+    "ordem": 11
+  }
+]
