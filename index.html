@@ -126,6 +126,22 @@ td.choque.veto{background:var(--perigo-bg);box-shadow:inset 0 0 0 2px var(--peri
 td.junta{background:var(--ok-bg);box-shadow:inset 0 0 0 2px var(--ok)}
 td.junta .cel{color:var(--ok);font-weight:600}
 td.junta .cel::after{content:' ⇄';opacity:.75}
+/* desktop: o app ocupa a largura toda e a grade encolhe as colunas para caber sem rolagem lateral */
+@media(min-width:1024px){
+  .topo-int,main{max-width:none;padding-left:20px;padding-right:20px}
+  .rolagem{overflow-x:visible}
+  table.grade{width:100%;min-width:0;table-layout:fixed}
+  table.grade th.hora{width:34px;min-width:0}
+  table.grade thead th{white-space:normal;padding:7px 3px;font-size:10.5px;line-height:1.25;overflow-wrap:anywhere}
+  .cel{min-width:0;padding:6px 3px;font-size:11.5px;line-height:1.25;overflow-wrap:anywhere}
+  .cel.fixa{font-size:9.5px;letter-spacing:.01em}
+}
+@media(min-width:1600px){
+  table.grade thead th{font-size:12px;padding:10px 4px}
+  table.grade th.hora{width:42px;font-size:12.5px}
+  .cel{font-size:13.5px;padding:13px 4px;min-height:52px}
+  .cel.fixa{font-size:11px}
+}
 .sel-junta{background:var(--ok-bg);color:var(--ok);font-weight:600;padding:2px 8px;border-radius:5px;font-size:12px}
 
 .painel{margin-top:16px;background:var(--superficie);border:1px solid var(--borda);border-radius:var(--r);box-shadow:var(--sombra);overflow:hidden}
